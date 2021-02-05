@@ -1,0 +1,32 @@
+{
+  "name": "template",
+  "title": "FVTT Module Template",
+  "description": "Description",
+  "authors": [
+    {
+      "name": "bekit",
+      "email": "fvtt-module-help@bekit.net",
+      "url": "https://bekit.net"
+    }
+  ],
+  "author": "bekit",
+  "version": "0.0.1",
+  "minimumCoreVersion": "0.7.0",
+  "compatibleCoreVersion": "0.7.9",
+  "scripts": [
+    "scripts/template.js"
+  ],
+  "url": "https://github.com/bekriebel/fvtt-module-template",
+  "manifest": "https://github.com/bekriebel/fvtt-module-template/releases/latest/download/module.json",
+  "download": "https://github.com/bekriebel/fvtt-module-template/releases/latest/download/fvtt-module-template.zip",
+  "readme": "https://github.com/bekriebel/fvtt-module-template/blob/main/README.md",
+  "changelog": "https://github.com/bekriebel/fvtt-module-template/blob/main/CHANGELOG.md",
+  "bugs": "https://github.com/bekriebel/fvtt-module-template/issues",
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ]
+}
