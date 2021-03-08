@@ -1,4 +1,4 @@
-class Template {
+class WalkieTalkie {
   // Module Code
 
 
@@ -11,7 +11,7 @@ class Template {
    * @param {...*} args      Arguments to console.debug
    */
   static debug(...args) {
-    if (game.settings.get("template", "debug")) console.debug("Template | ", ...args);
+    if (game.settings.get("walkie-talkie", "debug")) console.debug("Walkie-Talkie | ", ...args);
   }
 
   /**
@@ -19,7 +19,7 @@ class Template {
    * @param {...*} args      Arguments to console.info
    */
   static info(...args) {
-    if (game.settings.get("template", "debug")) console.info("Template | ", ...args);
+    if (game.settings.get("walkie-talkie", "debug")) console.info("Walkie-Talkie | ", ...args);
   }
 
   /**
@@ -27,7 +27,7 @@ class Template {
    * @param {...*} args      Arguments to console.warn
    */
   static warn(...args) {
-    console.warn("Template | ", ...args);
+    console.warn("Walkie-Talkie | ", ...args);
   }
 
   /**
@@ -35,7 +35,7 @@ class Template {
    * @param {...*} args      Arguments to console.error
    */
   static onError(...args) {
-    console.error("Template | ", ...args);
+    console.error("Walkie-Talkie | ", ...args);
   }
 }
 
@@ -44,9 +44,9 @@ class Template {
 /* -------------------------------------------- */
 
 Hooks.on("init", () => {
-  game.settings.register("template", "debug", {
-    name: "TEMPLATE.debug",
-    hint: "TEMPLATE.debugHint",
+  game.settings.register("walkie-talkie", "debug", {
+    name: "WALKIE-TALKIE.debug",
+    hint: "WALKIE-TALKIE.debugHint",
     scope: "world",
     config: true,
     default: false,

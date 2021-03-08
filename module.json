@@ -1,7 +1,7 @@
 {
-  "name": "template",
-  "title": "FVTT Module Template",
-  "description": "Description",
+  "name": "walkie-talkie",
+  "title": "Walkie-Talkie",
+  "description": "Private voice communication between individuals",
   "authors": [
     {
       "name": "bekit",
@@ -10,18 +10,19 @@
     }
   ],
   "author": "bekit",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "minimumCoreVersion": "0.7.0",
-  "compatibleCoreVersion": "0.7.9",
+  "compatibleCoreVersion": "0.8.0",
   "scripts": [
-    "scripts/template.js"
+    "scripts/walkie-talkie.js"
   ],
-  "url": "https://github.com/bekriebel/fvtt-module-template",
-  "manifest": "https://github.com/bekriebel/fvtt-module-template/releases/latest/download/module.json",
-  "download": "https://github.com/bekriebel/fvtt-module-template/releases/latest/download/fvtt-module-template.zip",
-  "readme": "https://github.com/bekriebel/fvtt-module-template/blob/main/README.md",
-  "changelog": "https://github.com/bekriebel/fvtt-module-template/blob/main/CHANGELOG.md",
-  "bugs": "https://github.com/bekriebel/fvtt-module-template/issues",
+  "socket": true,
+  "url": "https://github.com/bekriebel/fvtt-module-walkie-talkie",
+  "manifest": "https://github.com/bekriebel/fvtt-module-walkie-talkie/releases/latest/download/module.json",
+  "download": "https://github.com/bekriebel/fvtt-module-walkie-talkie/releases/latest/download/fvtt-module-walkie-talkie.zip",
+  "readme": "https://github.com/bekriebel/fvtt-module-walkie-talkie/blob/main/README.md",
+  "changelog": "https://github.com/bekriebel/fvtt-module-walkie-talkie/blob/main/CHANGELOG.md",
+  "bugs": "https://github.com/bekriebel/fvtt-module-walkie-talkie/issues",
   "languages": [
     {
       "lang": "en",

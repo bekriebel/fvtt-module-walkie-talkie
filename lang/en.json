@@ -1,4 +1,4 @@
 {
-    "TEMPLATE.debug": "Enable debug logging",
-    "TEMPLATE.debugHint": "Enables debug and info logging levels"
+    "WALKIE-TALKIE.debug": "Enable debug logging",
+    "WALKIE-TALKIE.debugHint": "Enables debug and info logging levels"
 }
