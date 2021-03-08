@@ -14,6 +14,7 @@
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.8.0",
   "scripts": [
+    "scripts/simplepeer.min.js",
     "scripts/walkie-talkie.js"
   ],
   "socket": true,
