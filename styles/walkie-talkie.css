@@ -1,0 +1,22 @@
+#players ol .walkie-talkie-button {
+    flex: 0 0 8px;
+    height: 8px;
+    margin: 0 8px 0 0;
+    color: grey;
+}
+
+#players ol .walkie-talkie-peer-connected {
+    color: orange;
+}
+
+#players ol .walkie-talkie-stream-connected {
+    color: green;
+}
+
+#players ol .walkie-talkie-stream-receiving {
+    color: yellow;
+}
+
+#players ol .walkie-talkie-stream-broadcasting {
+    color: greenyellow;
+}
