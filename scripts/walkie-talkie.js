@@ -111,18 +111,22 @@ class WalkieTalkie {
     this.peers.delete(userId);
   }
 
-  muteLocalStream(userId, mute = true) {
-    const broadcasting = !mute;
+  enableLocalStream(userId, enable = false) {
     if (this.peers.has(userId) && this.localStreams.has(userId)) {
+      // Enable each of the tracks
       this.localStreams.get(userId).getTracks().forEach((localStream) => {
-        localStream.enabled = broadcasting;
-        game.socket.emit("module.walkie-talkie", {
-          action: "peer-broadcasting",
-          userId,
-          broadcasting,
-        });
+        if (localStream.enabled !== enable) {
+          localStream.enabled = enable;
+          game.socket.emit("module.walkie-talkie", {
+            action: "peer-broadcasting",
+            userId,
+            broadcasting: enable,
+          });
+        }
       });
-      if (broadcasting) {
+
+      // Set the button class for colouration
+      if (enable) {
         this.talkieButtons.get(userId).addClass("walkie-talkie-stream-broadcasting");
       } else {
         this.talkieButtons.get(userId).removeClass("walkie-talkie-stream-broadcasting");
@@ -164,15 +168,15 @@ class WalkieTalkie {
     }
 
     this.talkieButtons.get(userId).on("mousedown", () => {
-      this.muteLocalStream(userId, false);
+      this.enableLocalStream(userId, true);
     });
 
     this.talkieButtons.get(userId).on("mouseup", () => {
-      this.muteLocalStream(userId, true);
+      this.enableLocalStream(userId, false);
     });
 
     this.talkieButtons.get(userId).on("mouseleave", () => {
-      this.muteLocalStream(userId, true);
+      this.enableLocalStream(userId, false);
     });
 
     this.talkieButtons.get(userId).on("click", () => {
@@ -224,7 +228,7 @@ class WalkieTalkie {
     if (this.localStreams.has(userId)) {
       this.debug("Adding user audio to stream (", userId, ")");
       this.peers.get(userId).addStream(this.localStreams.get(userId));
-      this.muteLocalStream(userId, true);
+      this.enableLocalStream(userId, false);
     } else {
       navigator.mediaDevices.getUserMedia({
         video: false,
@@ -235,7 +239,7 @@ class WalkieTalkie {
 
         this.debug("Adding user audio to stream (", userId, ")");
         this.peers.get(userId).addStream(this.localStreams.get(userId));
-        this.muteLocalStream(userId, true);
+        this.enableLocalStream(userId, false);
         this.talkieButtons.get(userId).addClass("walkie-talkie-stream-connected");
       }).catch((err) => {
         this.onError("Error getting audio device:", err);
