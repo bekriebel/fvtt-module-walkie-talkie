@@ -6,10 +6,11 @@
     {
       "name": "bekit",
       "email": "fvtt-module-help@bekit.net",
-      "url": "https://bekit.net"
+      "url": "https://bekit.net",
+      "patreon": "https://www.patreon.com/bekit",
+      "ko-fi": "https://ko-fi.com/bekit"
     }
   ],
-  "author": "bekit",
   "version": "0.0.2",
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.8.0",
