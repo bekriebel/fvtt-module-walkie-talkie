@@ -112,6 +112,16 @@ class WalkieTalkie {
     this.peers.delete(userId);
   }
 
+  isLocalStreamEnabled(userId) {
+    // If we don't have a local stream, return false
+    if (!this.localStreams.has(userId)) {
+      return false;
+    }
+
+    const localTracks = this.localStreams.get(userId).getTracks();
+    return localTracks.some((localTrack) => localTrack.enabled === true);
+  }
+
   enableLocalStream(userId, enable = false) {
     // The peers & streams aren't connected, skip managing them
     if (!this.peers.has(userId) || !this.localStreams.has(userId)) {
@@ -122,7 +132,7 @@ class WalkieTalkie {
     const localTracks = this.localStreams.get(userId).getTracks();
 
     // Only act if any of the tracks need to be enabled/disabled
-    if (localTracks.some((localTrack) => localTrack.enabled !== enable)) {
+    if (this.isLocalStreamEnabled(userId) !== enable) {
       // Enable/disable each of the tracks
       localTracks.forEach((localStream) => {
         localStream.enabled = enable;
@@ -145,6 +155,10 @@ class WalkieTalkie {
     } else {
       this.talkieButtons.get(userId).removeClass("walkie-talkie-stream-broadcasting");
     }
+  }
+
+  toggleLocalStream(userId) {
+    this.enableLocalStream(userId, !this.isLocalStreamEnabled(userId));
   }
 
   closeAllPeers() {
@@ -179,21 +193,25 @@ class WalkieTalkie {
       this.talkieButtons.set(userId, talkieButton);
     }
 
-    this.talkieButtons.get(userId).on("mousedown", () => {
-      this.enableLocalStream(userId, true);
-    });
+    if (!game.settings.get("walkie-talkie", "toggleBroadcast")) {
+      this.talkieButtons.get(userId).on("mousedown", () => {
+        this.enableLocalStream(userId, true);
+      });
 
-    this.talkieButtons.get(userId).on("mouseup", () => {
-      this.enableLocalStream(userId, false);
-    });
+      this.talkieButtons.get(userId).on("mouseup", () => {
+        this.enableLocalStream(userId, false);
+      });
 
-    this.talkieButtons.get(userId).on("mouseleave", () => {
-      this.enableLocalStream(userId, false);
-    });
+      this.talkieButtons.get(userId).on("mouseleave", () => {
+        this.enableLocalStream(userId, false);
+      });
+    }
 
     this.talkieButtons.get(userId).on("click", () => {
       if (!this.peers.has(userId) || !this.peers.get(userId).connected) {
         this.initPeer(userId);
+      } else if (game.settings.get("walkie-talkie", "toggleBroadcast")) {
+        this.toggleLocalStream(userId);
       }
     });
 
