@@ -10,7 +10,7 @@
     }
   ],
   "author": "bekit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.8.0",
   "scripts": [
