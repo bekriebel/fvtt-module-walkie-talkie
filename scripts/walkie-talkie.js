@@ -7,6 +7,7 @@ class WalkieTalkie {
     this.remoteStreams = new Map();
     this.localStreams = new Map();
     this.talkieButtons = new Map();
+    this.savedAvEnabledState = false;
   }
 
   // Module Code
@@ -112,25 +113,37 @@ class WalkieTalkie {
   }
 
   enableLocalStream(userId, enable = false) {
-    if (this.peers.has(userId) && this.localStreams.has(userId)) {
-      // Enable each of the tracks
-      this.localStreams.get(userId).getTracks().forEach((localStream) => {
-        if (localStream.enabled !== enable) {
-          localStream.enabled = enable;
-          game.socket.emit("module.walkie-talkie", {
-            action: "peer-broadcasting",
-            userId,
-            broadcasting: enable,
-          });
-        }
+    // The peers & streams aren't connected, skip managing them
+    if (!this.peers.has(userId) || !this.localStreams.has(userId)) {
+      return;
+    }
+
+    // Get all local tracks
+    const localTracks = this.localStreams.get(userId).getTracks();
+
+    // Only act if any of the tracks need to be enabled/disabled
+    if (localTracks.some((localTrack) => localTrack.enabled !== enable)) {
+      // Enable/disable each of the tracks
+      localTracks.forEach((localStream) => {
+        localStream.enabled = enable;
       });
 
-      // Set the button class for colouration
-      if (enable) {
-        this.talkieButtons.get(userId).addClass("walkie-talkie-stream-broadcasting");
-      } else {
-        this.talkieButtons.get(userId).removeClass("walkie-talkie-stream-broadcasting");
-      }
+      // Send a signal to the remote client
+      game.socket.emit("module.walkie-talkie", {
+        action: "peer-broadcasting",
+        userId,
+        broadcasting: enable,
+      });
+
+      // Disable/Enable other AV client
+      this._disableAvClient(enable);
+    }
+
+    // Set the button class for colouration
+    if (enable) {
+      this.talkieButtons.get(userId).addClass("walkie-talkie-stream-broadcasting");
+    } else {
+      this.talkieButtons.get(userId).removeClass("walkie-talkie-stream-broadcasting");
     }
   }
 
@@ -164,7 +177,6 @@ class WalkieTalkie {
     if (!this.talkieButtons.has(userId)) {
       const talkieButton = $('<a class="walkie-talkie-button" title="Walkie-Talkie"><i class="fas fa-microphone-alt"></i></a>');
       this.talkieButtons.set(userId, talkieButton);
-      this.debug("talkieButton", talkieButton);
     }
 
     this.talkieButtons.get(userId).on("mousedown", () => {
@@ -228,6 +240,7 @@ class WalkieTalkie {
     if (this.localStreams.has(userId)) {
       this.debug("Adding user audio to stream (", userId, ")");
       this.peers.get(userId).addStream(this.localStreams.get(userId));
+      this.savedAvEnabledState = !game.webrtc.settings.get("client", `users.${game.user.id}.muted`);
       this.enableLocalStream(userId, false);
     } else {
       navigator.mediaDevices.getUserMedia({
@@ -239,6 +252,7 @@ class WalkieTalkie {
 
         this.debug("Adding user audio to stream (", userId, ")");
         this.peers.get(userId).addStream(this.localStreams.get(userId));
+        this.savedAvEnabledState = !game.webrtc.settings.get("client", `users.${game.user.id}.muted`);
         this.enableLocalStream(userId, false);
         this.talkieButtons.get(userId).addClass("walkie-talkie-stream-connected");
       }).catch((err) => {
@@ -257,6 +271,29 @@ class WalkieTalkie {
     }
 
     audioElement.play();
+  }
+
+  _disableAvClient(disable) {
+    // Don't disable the AV client if the setting is off or the toggleBroadcast option is on
+    if (!game.settings.get("walkie-talkie", "disableAvClient") || game.settings.get("walkie-talkie", "toggleBroadcast")) {
+      return;
+    }
+
+    // Get state of webrtc audio
+    const isAudioEnabled = !game.webrtc.settings.get("client", `users.${game.user.id}.muted`);
+
+    if (disable) {
+      this.savedAvEnabledState = isAudioEnabled;
+      if (this.savedAvEnabledState) {
+        this.debug("Disabling AV client audio");
+        game.webrtc.settings.set("client", `users.${game.user.id}.muted`, true);
+        // TODO: trigger refresh view for webrtc video window for mute icon
+      }
+    } else if (this.savedAvEnabledState !== isAudioEnabled) {
+      this.debug("Enabling AV client audio");
+      game.webrtc.settings.set("client", `users.${game.user.id}.muted`, !this.savedAvEnabledState);
+      // TODO: trigger refresh view for webrtc video window for mute icon
+    }
   }
 
   /* -------------------------------------------- */
@@ -301,6 +338,24 @@ class WalkieTalkie {
 /* -------------------------------------------- */
 
 Hooks.on("init", () => {
+  game.settings.register("walkie-talkie", "toggleBroadcast", {
+    name: "WALKIE-TALKIE.toggleBroadcast",
+    hint: "WALKIE-TALKIE.toggleBroadcastHint",
+    scope: "client",
+    config: true,
+    default: false,
+    type: Boolean,
+    onChange: () => window.location.reload(),
+  });
+  game.settings.register("walkie-talkie", "disableAvClient", {
+    name: "WALKIE-TALKIE.disableAvClient",
+    hint: "WALKIE-TALKIE.disableAvClientHint",
+    scope: "client",
+    config: !game.settings.get("walkie-talkie", "toggleBroadcast"),
+    default: true,
+    type: Boolean,
+    onChange: () => {},
+  });
   game.settings.register("walkie-talkie", "debug", {
     name: "WALKIE-TALKIE.debug",
     hint: "WALKIE-TALKIE.debugHint",
