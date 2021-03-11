@@ -396,7 +396,7 @@ Hooks.on("init", () => {
 
 Hooks.on("ready", () => {
   game.socket.on("module.walkie-talkie", (request, userId) => {
-    game.webrtc.client.debug("Socket event:", request, "from:", userId);
+    walkieTalkie.debug("Socket event:", request, "from:", userId);
     switch (request.action) {
       case "peer-signal":
         // Ignore requests that aren't for us.
@@ -417,7 +417,7 @@ Hooks.on("ready", () => {
         }
         break;
       default:
-        game.webrtc.client.warn("Unknown socket event:", request);
+        walkieTalkie.warn("Unknown socket event:", request);
     }
   });
 
