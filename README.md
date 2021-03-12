@@ -49,8 +49,8 @@ If using another AV Client for full communication, this option automatically act
 Increases the logging level of the module. Useful for debugging connection issues.
 
 ## Known limitations
-* Currently no way to adjust volume of recieved audio - [enhancement tracking](https://github.com/TODO)
-* Currently no way to select audio input or output devices (uses system default) - [enhancement tracking](https://github.com/TODO)
+* Currently no way to adjust volume of recieved audio - [enhancement tracking](https://github.com/bekriebel/fvtt-module-walkie-talkie/issues/1)
+* Currently no way to select audio input or output devices (uses system default) - [enhancement tracking](https://github.com/bekriebel/fvtt-module-walkie-talkie/issues/2)
 
 ## Changelog
 See [CHANGELOG](/CHANGELOG.md)
