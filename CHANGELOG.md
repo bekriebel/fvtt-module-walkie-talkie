@@ -1,3 +1,7 @@
+# v0.1.0
+* Documentation added
+* Ready for publication!
+
 # v0.0.2
 * Code cleanup to better fit AV client standards
 * Add the ability to disable AV client audio on broadcast
