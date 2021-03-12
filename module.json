@@ -7,13 +7,16 @@
       "name": "bekit",
       "email": "fvtt-module-help@bekit.net",
       "url": "https://bekit.net",
+      "discord": "bekit#4213",
       "patreon": "https://www.patreon.com/bekit",
-      "ko-fi": "https://ko-fi.com/bekit"
+      "ko-fi": "https://ko-fi.com/bekit",
+      "twitter": "@bekit"
     }
   ],
   "version": "0.0.2",
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.8.0",
+  "manifestPlusVersion": "1.1.0",
   "scripts": [
     "scripts/simplepeer.min.js",
     "scripts/walkie-talkie.js"
@@ -33,6 +36,40 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
+    }
+  ],
+  "media": [
+    {
+      "type": "cover",
+      "url": "https://raw.githubusercontent.com/bekriebel/fvtt-module-walkie-talkie/main/images/example_broadcasting-to-player1_gm.png"
+    },
+    {
+      "type": "screenshot",
+      "url": "images/example_no-connections_gm.png"
+    },
+    {
+      "type": "screenshot",
+      "url": "images/example_no-connections_player1.png"
+    },
+    {
+      "type": "screenshot",
+      "url": "images/example_player1-connected_gm.png"
+    },
+    {
+      "type": "screenshot",
+      "url": "images/example_gm-connected-no-stream_player1.png"
+    },
+    {
+      "type": "screenshot",
+      "url": "images/example_broadcasting-to-player1_gm.png"
+    },
+    {
+      "type": "screenshot",
+      "url": "images/example_recieving-audio-from-gm_player1.png"
+    },
+    {
+      "type": "screenshot",
+      "url": "images/example_module-options.png"
     }
   ]
 }
