@@ -1,4 +1,5 @@
 {
+    "WALKIE-TALKIE.captureErrorAudio" : "Unable to capture from your Audio device",
     "WALKIE-TALKIE.debug": "Enable debug logging",
     "WALKIE-TALKIE.debugHint": "Enables debug and info logging levels",
     "WALKIE-TALKIE.disableAvClient": "Disable AV client microphone",

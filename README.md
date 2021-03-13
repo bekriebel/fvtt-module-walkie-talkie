@@ -33,6 +33,8 @@ To transmit audio, click and hold down on the microphone next to the user you wa
 ![example image - gm transmitting audio to player 1](images/example_broadcasting-to-player1_gm.png)
 ![example image - player 1 receiving audio from gm](images/example_receiving-audio-from-gm_player1.png)
 
+To change the microphone or audio output device used by Walkie-Talkie, you can change the Audio Capture Device or Audio Output Device under the standard FVTT Audio/Video Configuration settings.
+
 ### **Module Options**
 ![example image - module options](images/example_module-options.png)
 
