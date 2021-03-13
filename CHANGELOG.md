@@ -1,3 +1,6 @@
+# v0.1.3
+* Fix manifest+ entries
+
 # v0.1.2
 * Re-add `author` tag in module.json. Apparently some things don't read the `authors` tag
 
