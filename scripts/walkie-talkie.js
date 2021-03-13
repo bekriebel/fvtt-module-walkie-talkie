@@ -149,7 +149,7 @@ class WalkieTalkie {
       this._disableAvClient(enable);
     }
 
-    // Set the button class for colouration
+    // Set the button class for coloration
     if (enable) {
       this.talkieButtons.get(userId).addClass("walkie-talkie-stream-broadcasting");
     } else {
@@ -388,11 +388,6 @@ Hooks.on("init", () => {
 
   Hooks.on("renderPlayerList", walkieTalkie._onRenderPlayerList.bind(walkieTalkie));
 });
-
-// Hooks.on("renderPlayerList", (playerList, $playerList, players) => {
-//   console.log("renderPlayerList:", playerList, $playerList, players);
-//   //$playerList.find('ol').children().each(handle(players));
-// });
 
 Hooks.on("ready", () => {
   game.socket.on("module.walkie-talkie", (request, userId) => {

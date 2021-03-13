@@ -2,7 +2,7 @@
 ### **What is Walkie-Talkie**
 Transmit voice chat to an individual with a push-to-talk microphone.
 
-Are you running a game and the bard just decided to step through the magic portal by himself? Are you a player and want to use the message spell for a secret between you and another player? Does a warlock patron need to speek to his underling without the rest of the party knowing about the influence?
+Are you running a game and the bard just decided to step through the magic portal by himself? Are you a player and want to use the message spell for a secret between you and another player? Does a warlock patron need to speak to his underling without the rest of the party knowing about the influence?
 
 Walkie-Talkie is for any situation where one-to-one audio is needed.
 
@@ -15,30 +15,30 @@ Walkie-Talkie will also not help in situations with interesting network challeng
 You can install this module through the FVTT module browser or by using the following manifest URL: https://github.com/bekriebel/fvtt-module-walkie-talkie/releases/latest/download/module.json
 
 ## How to use
-By default, Walkie-Talkie does not not establish any connections between users. This helps prevent any unecissary resources from being used. When users first connect, they will see a grey icon next to each other user in the FVTT Player List to idicate that no connection is established.
+By default, Walkie-Talkie does not not establish any connections between users. This helps prevent any unnecessary resources from being used. When users first connect, they will see a grey icon next to each other user in the FVTT Player List to indicate that no connection is established.
 
 ![example image - no connections from gm](images/example_no-connections_gm.png)
 ![example image - no connections from player](images/example_no-connections_player1.png)
 
-To establish a connection to another user, simply click the microphone next to their name, this will attempt to established a two way connection between the users. If the connection is fully established with an audio connection, the microphone will turn dark green.
+To establish a connection to another user, simply click the microphone next to their name, this will attempt to establish a two way connection between the users. If the connection is fully established with an audio connection, the microphone will turn dark green.
 
 ![example image - gm connected to player 1 with audio](images/example_player1-connected_gm.png)
 
-If the connection is established, but unable to send audio (e.g., if the user denied access to their micrphone), the microphone will turn orange to indicate that they are connected and may recieve audio, but cannot send audio.
+If the connection is established, but unable to send audio (e.g., if the user denied access to their microphone), the microphone will turn orange to indicate that they are connected and may receive audio, but cannot send audio.
 
 ![example image - player 1 connected to gm without audio](images/example_gm-connected-no-stream_player1.png)
 
-To transmit audio, click and hold down on the microphone next to the user you want to send to. Your microphone will turn bright green to show that you are sending your audio. If you are recieving audio from another user, the microphone next to that user will highlight in yellow.
+To transmit audio, click and hold down on the microphone next to the user you want to send to. Your microphone will turn bright green to show that you are sending your audio. If you are receiving audio from another user, the microphone next to that user will highlight in yellow.
 
 ![example image - gm transmitting audio to player 1](images/example_broadcasting-to-player1_gm.png)
-![example image - player 1 receiving audio from gm](images/example_recieving-audio-from-gm_player1.png)
+![example image - player 1 receiving audio from gm](images/example_receiving-audio-from-gm_player1.png)
 
 ### **Module Options**
 ![example image - module options](images/example_module-options.png)
 
 **Toggle sending audio** - *Default off*
 
-Changes the default push-to-talk microphone behaviour to a toggle. With this enabled, it's possible to transmit audio to more than one user at a time.
+Changes the default push-to-talk microphone behavior to a toggle. With this enabled, it's possible to transmit audio to more than one user at a time.
 
 **Disable AV client microphone** - *Default on*
 
@@ -49,8 +49,7 @@ If using another AV Client for full communication, this option automatically act
 Increases the logging level of the module. Useful for debugging connection issues.
 
 ## Known limitations
-* Currently no way to adjust volume of recieved audio - [enhancement tracking](https://github.com/bekriebel/fvtt-module-walkie-talkie/issues/1)
-* Currently no way to select audio input or output devices (uses system default) - [enhancement tracking](https://github.com/bekriebel/fvtt-module-walkie-talkie/issues/2)
+* Currently no way to adjust volume of received audio - [enhancement tracking](https://github.com/bekriebel/fvtt-module-walkie-talkie/issues/1)
 
 ## Changelog
 See [CHANGELOG](/CHANGELOG.md)
