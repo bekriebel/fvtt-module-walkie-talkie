@@ -1,3 +1,7 @@
+# v0.1.1
+* Spell check README and other files
+* Use the FoundryVTT A/V Audio Configuration settings for audio input and output selection
+
 # v0.1.0
 * Documentation added
 * Ready for publication!
