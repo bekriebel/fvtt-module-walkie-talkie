@@ -1,3 +1,6 @@
+# v0.1.2
+* Re-add `author` tag in module.json. Apparently some things don't read the `authors` tag
+
 # v0.1.1
 * Spell check README and other files
 * Use the FoundryVTT A/V Audio Configuration settings for audio input and output selection
