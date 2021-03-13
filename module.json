@@ -46,31 +46,31 @@
     },
     {
       "type": "screenshot",
-      "url": "images/example_no-connections_gm.png"
+      "url": "https://raw.githubusercontent.com/bekriebel/fvtt-module-walkie-talkie/main/images/example_no-connections_gm.png"
     },
     {
       "type": "screenshot",
-      "url": "images/example_no-connections_player1.png"
+      "url": "https://raw.githubusercontent.com/bekriebel/fvtt-module-walkie-talkie/main/images/example_no-connections_player1.png"
     },
     {
       "type": "screenshot",
-      "url": "images/example_player1-connected_gm.png"
+      "url": "https://raw.githubusercontent.com/bekriebel/fvtt-module-walkie-talkie/main/images/example_player1-connected_gm.png"
     },
     {
       "type": "screenshot",
-      "url": "images/example_gm-connected-no-stream_player1.png"
+      "url": "https://raw.githubusercontent.com/bekriebel/fvtt-module-walkie-talkie/main/images/example_gm-connected-no-stream_player1.png"
     },
     {
       "type": "screenshot",
-      "url": "images/example_broadcasting-to-player1_gm.png"
+      "url": "https://raw.githubusercontent.com/bekriebel/fvtt-module-walkie-talkie/main/images/example_broadcasting-to-player1_gm.png"
     },
     {
       "type": "screenshot",
-      "url": "images/example_receiving-audio-from-gm_player1.png"
+      "url": "https://raw.githubusercontent.com/bekriebel/fvtt-module-walkie-talkie/main/images/example_receiving-audio-from-gm_player1.png"
     },
     {
       "type": "screenshot",
-      "url": "images/example_module-options.png"
+      "url": "https://raw.githubusercontent.com/bekriebel/fvtt-module-walkie-talkie/main/images/example_module-options.png"
     }
   ]
 }
