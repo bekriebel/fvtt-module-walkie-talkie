@@ -1,3 +1,6 @@
+# v0.1.4
+* Fix Firefox support
+
 # v0.1.3
 * Fix manifest+ entries
 
