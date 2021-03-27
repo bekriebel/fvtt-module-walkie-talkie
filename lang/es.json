@@ -1,0 +1,12 @@
+{
+    "I18N.LANGUAGE": "Español",
+    "I18N.MAINTAINERS": "@Viriato139ac#0342",
+
+    "WALKIE-TALKIE.captureErrorAudio" : "No se ha podido conectar con el dispositivo de audio",
+    "WALKIE-TALKIE.debug": "Activar registro de errores",
+    "WALKIE-TALKIE.debugHint": "Activa el nivel de registro de errores e información",
+    "WALKIE-TALKIE.disableAvClient": "Desactivar micrófono cliente AV",
+    "WALKIE-TALKIE.disableAvClientHint": "Si está usando otro cliente de AV como el módulo Jitsi WebRTC, desactiva automáticamente su micrófono AV cuando se envía un mensaje con Walkie-Talkie. Esta opción se ignorará si se usa \"Conmutar envío de audio\"",
+    "WALKIE-TALKIE.toggleBroadcast": "Conmutar envío de audio",
+    "WALKIE-TALKIE.toggleBroadcastHint": "Conmuta el envío de audio a los usuarios en lugar de requerir que se presione el botón del micrófono"
+}
