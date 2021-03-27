@@ -250,12 +250,15 @@ class WalkieTalkie {
       audioElement = document.createElement("audio");
       audioElement.className = "player-walkie-talkie-audio";
       audioElement.autoplay = true;
-      audioElement.setSinkId(audioSink).then(() => {
-        this.debug("Audio output set:", audioSink);
-      }).catch((err) => {
-        this.onError("Error setting audio output device:", err);
-      });
-
+      if (typeof audioElement.sinkId !== "undefined") {
+        audioElement.setSinkId(audioSink).then(() => {
+          this.debug("Audio output set:", audioSink);
+        }).catch((err) => {
+          this.onError("Error setting audio output device:", err);
+        });
+      } else {
+        this.debug("Browser does not support output device selection");
+      }
       // Place the audio element after the button
       buttonElement.after(audioElement);
     }
