@@ -1,3 +1,6 @@
+# v0.1.5
+* Add Spanish translation thanks to José E. Lozano (@Viriato139ac#0342)
+
 # v0.1.4
 * Fix Firefox support
 
