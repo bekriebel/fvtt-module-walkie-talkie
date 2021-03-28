@@ -1,3 +1,6 @@
+# v0.1.6
+* Update compatibility to FVTT v0.8.1
+
 # v0.1.5
 * Add Spanish translation thanks to José E. Lozano (@Viriato139ac#0342)
 
