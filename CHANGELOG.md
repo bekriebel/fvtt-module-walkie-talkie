@@ -1,3 +1,7 @@
+# v0.2.0
+* Switch to esmodule and break code up into distinct files for better maintainability
+* Update compatibility to FVTT v0.8.5
+
 # v0.1.6
 * Update compatibility to FVTT v0.8.1
 
