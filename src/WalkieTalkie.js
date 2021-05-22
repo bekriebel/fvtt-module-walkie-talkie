@@ -1,6 +1,8 @@
-let walkieTalkie = null;
+import { LANG_NAME, MODULE_NAME } from "./Constants.js";
+import * as log from "./Logging.js";
+import "./simplepeer.min.js";
 
-class WalkieTalkie {
+export default class WalkieTalkie {
   constructor() {
     this.peers = new Map();
     this.audioElements = new Map();
@@ -18,8 +20,8 @@ class WalkieTalkie {
     }));
 
     this.peers.get(userId).on("signal", (data) => {
-      this.debug("SimplePeer signal (", userId, "):", data);
-      game.socket.emit("module.walkie-talkie", {
+      log.debug("SimplePeer signal (", userId, "):", data);
+      game.socket.emit(`module.${MODULE_NAME}`, {
         action: "peer-signal",
         userId,
         data,
@@ -27,33 +29,33 @@ class WalkieTalkie {
     });
 
     this.peers.get(userId).on("connect", () => {
-      this.debug("SimplePeer connect (", userId, ")");
+      log.debug("SimplePeer connect (", userId, ")");
       this.talkieButtons.get(userId).addClass("walkie-talkie-peer-connected");
       this._createUserAudio(userId);
     });
 
     this.peers.get(userId).on("data", (data) => {
-      this.info("SimplePeer data (", userId, "):", data.toString());
+      log.info("SimplePeer data (", userId, "):", data.toString());
     });
 
     this.peers.get(userId).on("stream", (stream) => {
       // got remote video stream, now let's show it in a video tag
-      this.debug("SimplePeer stream (", userId, "):", stream);
+      log.debug("SimplePeer stream (", userId, "):", stream);
 
       this.remoteStreams.set(userId, stream);
       this._setAudioElementStream(userId);
     });
 
     this.peers.get(userId).on("close", () => {
-      this.debug("SimplePeer close (", userId, ")");
+      log.debug("SimplePeer close (", userId, ")");
       this.closePeer(userId);
     });
 
     this.peers.get(userId).on("error", (err) => {
       if (err.code === "ERR_DATA_CHANNEL") {
-        this.warn("Peer connection closed (", userId, ")");
+        log.warn("Peer connection closed (", userId, ")");
       } else {
-        this.onError("SimplePeer error (", userId, "):", err);
+        log.error("SimplePeer error (", userId, "):", err);
       }
 
       if (!this.peers.get(userId).connected) {
@@ -76,7 +78,7 @@ class WalkieTalkie {
     if (!this.peers.has(userId) || !this.peers.get(userId).connected) {
       this.setupPeer(userId, true);
     } else {
-      this.warn("initPeer: Peer already exists for", userId);
+      log.warn("initPeer: Peer already exists for", userId);
     }
   }
 
@@ -126,8 +128,8 @@ class WalkieTalkie {
     // The peers & streams aren't connected, skip managing them
     if (!this.peers.has(userId) || !this.localStreams.has(userId)) {
       if (this.peers.has(userId) && enable) {
-        this.warn(game.i18n.localize("WALKIE-TALKIE.captureErrorAudio"));
-        ui.notifications.warn(game.i18n.localize("WALKIE-TALKIE.captureErrorAudio"));
+        log.warn(game.i18n.localize(`${LANG_NAME}.captureErrorAudio`));
+        ui.notifications.warn(game.i18n.localize(`${LANG_NAME}.captureErrorAudio`));
       }
 
       return;
@@ -144,7 +146,7 @@ class WalkieTalkie {
       });
 
       // Send a signal to the remote client
-      game.socket.emit("module.walkie-talkie", {
+      game.socket.emit(`module.${MODULE_NAME}`, {
         action: "peer-broadcasting",
         userId,
         broadcasting: enable,
@@ -169,9 +171,9 @@ class WalkieTalkie {
   closeAllPeers() {
     if (this.peers) {
       this.peers.forEach((peer, userId) => {
-        this.debug("Closing peer (", userId, ")");
+        log.debug("Closing peer (", userId, ")");
         // Send signal to remotes
-        game.socket.emit("module.walkie-talkie", {
+        game.socket.emit(`module.${MODULE_NAME}`, {
           action: "peer-close",
           userId,
         });
@@ -198,7 +200,7 @@ class WalkieTalkie {
       this.talkieButtons.set(userId, talkieButton);
     }
 
-    if (!game.settings.get("walkie-talkie", "toggleBroadcast")) {
+    if (!game.settings.get(MODULE_NAME, "toggleBroadcast")) {
       this.talkieButtons.get(userId).on("mousedown", () => {
         this.enableLocalStream(userId, true);
       });
@@ -215,7 +217,7 @@ class WalkieTalkie {
     this.talkieButtons.get(userId).on("click", () => {
       if (!this.peers.has(userId) || !this.peers.get(userId).connected) {
         this.initPeer(userId);
-      } else if (game.settings.get("walkie-talkie", "toggleBroadcast")) {
+      } else if (game.settings.get(MODULE_NAME, "toggleBroadcast")) {
         this.toggleLocalStream(userId);
       }
     });
@@ -252,12 +254,12 @@ class WalkieTalkie {
       audioElement.autoplay = true;
       if (typeof audioElement.sinkId !== "undefined") {
         audioElement.setSinkId(audioSink).then(() => {
-          this.debug("Audio output set:", audioSink);
+          log.debug("Audio output set:", audioSink);
         }).catch((err) => {
-          this.onError("Error setting audio output device:", err);
+          log.error("Error setting audio output device:", err);
         });
       } else {
-        this.debug("Browser does not support output device selection");
+        log.debug("Browser does not support output device selection");
       }
       // Place the audio element after the button
       buttonElement.after(audioElement);
@@ -276,12 +278,12 @@ class WalkieTalkie {
     const audioSrc = game.webrtc.settings.get("client", "audioSrc");
 
     if (!audioSrc) {
-      this.warn("Audio input source disabled");
+      log.warn("Audio input source disabled");
       return;
     }
 
     if (this.localStreams.has(userId)) {
-      this.debug("Adding user audio to stream (", userId, ")");
+      log.debug("Adding user audio to stream (", userId, ")");
       this.peers.get(userId).addStream(this.localStreams.get(userId));
       this.savedAvEnabledState = !game.webrtc.settings.get("client", `users.${game.user.id}.muted`);
       this.enableLocalStream(userId, false);
@@ -290,16 +292,16 @@ class WalkieTalkie {
         video: false,
         audio: { deviceId: game.webrtc.settings.get("client", "audioSrc") },
       }).then((localStream) => {
-        this.debug("Got user audio:", localStream);
+        log.debug("Got user audio:", localStream);
         this.localStreams.set(userId, localStream);
 
-        this.debug("Adding user audio to stream (", userId, ")");
+        log.debug("Adding user audio to stream (", userId, ")");
         this.peers.get(userId).addStream(this.localStreams.get(userId));
         this.savedAvEnabledState = !game.webrtc.settings.get("client", `users.${game.user.id}.muted`);
         this.enableLocalStream(userId, false);
         this.talkieButtons.get(userId).addClass("walkie-talkie-stream-connected");
       }).catch((err) => {
-        this.onError("Error getting audio device:", err);
+        log.error("Error getting audio device:", err);
       });
     }
   }
@@ -318,7 +320,7 @@ class WalkieTalkie {
 
   _disableAvClient(disable) {
     // Don't disable the AV client if the setting is off or the toggleBroadcast option is on
-    if (!game.settings.get("walkie-talkie", "disableAvClient") || game.settings.get("walkie-talkie", "toggleBroadcast")) {
+    if (!game.settings.get(MODULE_NAME, "disableAvClient") || game.settings.get(MODULE_NAME, "toggleBroadcast")) {
       return;
     }
 
@@ -328,12 +330,12 @@ class WalkieTalkie {
     if (disable) {
       this.savedAvEnabledState = isAudioEnabled;
       if (this.savedAvEnabledState) {
-        this.debug("Disabling AV client audio");
+        log.debug("Disabling AV client audio");
         game.webrtc.settings.set("client", `users.${game.user.id}.muted`, true);
         // TODO: trigger refresh view for webrtc video window for mute icon
       }
     } else if (this.savedAvEnabledState !== isAudioEnabled) {
-      this.debug("Enabling AV client audio");
+      log.debug("Enabling AV client audio");
       game.webrtc.settings.set("client", `users.${game.user.id}.muted`, !this.savedAvEnabledState);
       // TODO: trigger refresh view for webrtc video window for mute icon
     }
@@ -344,126 +346,8 @@ class WalkieTalkie {
 
     // Change audio source or sink
     if (keys.some((k) => ["client.audioSink", "client.audioSrc"].includes(k))) {
-      this.debug("Audio device changed, closing existing connections", changed);
+      log.debug("Audio device changed, closing existing connections", changed);
       this.closeAllPeers();
     }
   }
-
-  /* -------------------------------------------- */
-  /*  Logging Methods                             */
-  /* -------------------------------------------- */
-
-  /**
-   * Display debug messages on the console if debugging is enabled
-   * @param {...*} args      Arguments to console.debug
-   */
-  debug(...args) {
-    if (game.settings.get("walkie-talkie", "debug")) console.debug("Walkie-Talkie | ", ...args);
-  }
-
-  /**
-   * Display info messages on the console if debugging is enabled
-   * @param {...*} args      Arguments to console.info
-   */
-  info(...args) {
-    if (game.settings.get("walkie-talkie", "debug")) console.info("Walkie-Talkie | ", ...args);
-  }
-
-  /**
-   * Display warning messages on the console
-   * @param {...*} args      Arguments to console.warn
-   */
-  warn(...args) {
-    console.warn("Walkie-Talkie | ", ...args);
-  }
-
-  /**
-   * Display error messages on the console
-   * @param {...*} args      Arguments to console.error
-   */
-  onError(...args) {
-    console.error("Walkie-Talkie | ", ...args);
-  }
 }
-
-/* -------------------------------------------- */
-/*  Hook calls                                  */
-/* -------------------------------------------- */
-
-Hooks.on("init", () => {
-  game.settings.register("walkie-talkie", "toggleBroadcast", {
-    name: "WALKIE-TALKIE.toggleBroadcast",
-    hint: "WALKIE-TALKIE.toggleBroadcastHint",
-    scope: "client",
-    config: true,
-    default: false,
-    type: Boolean,
-    onChange: () => window.location.reload(),
-  });
-  game.settings.register("walkie-talkie", "disableAvClient", {
-    name: "WALKIE-TALKIE.disableAvClient",
-    hint: "WALKIE-TALKIE.disableAvClientHint",
-    scope: "client",
-    config: !game.settings.get("walkie-talkie", "toggleBroadcast"),
-    default: true,
-    type: Boolean,
-    onChange: () => {},
-  });
-  game.settings.register("walkie-talkie", "debug", {
-    name: "WALKIE-TALKIE.debug",
-    hint: "WALKIE-TALKIE.debugHint",
-    scope: "world",
-    config: true,
-    default: false,
-    type: Boolean,
-    onChange: () => {},
-  });
-
-  walkieTalkie = new WalkieTalkie();
-
-  Hooks.on("renderPlayerList", walkieTalkie._onRenderPlayerList.bind(walkieTalkie));
-
-  Hooks.on("rtcSettingsChanged", walkieTalkie._onRtcSettingsChanged.bind(walkieTalkie));
-});
-
-Hooks.on("ready", () => {
-  // Set up socket listeners
-  game.socket.on("module.walkie-talkie", (request, userId) => {
-    walkieTalkie.debug("Socket event:", request, "from:", userId);
-    switch (request.action) {
-      case "peer-signal":
-        // Ignore requests that aren't for us.
-        if (request.userId === game.user.id) {
-          walkieTalkie.signal(userId, request.data);
-        }
-        break;
-      case "peer-close":
-        // Ignore requests that aren't for us.
-        if (request.userId === game.user.id) {
-          walkieTalkie.closePeer(userId);
-        }
-        break;
-      case "peer-broadcasting":
-        // Ignore requests that aren't for us.
-        if (request.userId === game.user.id) {
-          walkieTalkie._remoteBroadcasting(userId, request.broadcasting);
-        }
-        break;
-      default:
-        walkieTalkie.warn("Unknown socket event:", request);
-    }
-  });
-
-  // Break down peer when the window is closed
-  window.addEventListener("beforeunload", walkieTalkie.closeAllPeers.bind(walkieTalkie));
-
-  // Request media access up front
-  navigator.mediaDevices.getUserMedia({
-    video: false,
-    audio: true,
-  }).then(() => {
-    walkieTalkie.debug("Audio stream request succeeded");
-  }).catch((err) => {
-    walkieTalkie.onError("Error getting audio device:", err);
-  });
-});

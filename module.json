@@ -18,9 +18,8 @@
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.8.1",
   "manifestPlusVersion": "1.1.0",
-  "scripts": [
-    "scripts/simplepeer.min.js",
-    "scripts/walkie-talkie.js"
+  "esmodules": [
+    "src/walkie-talkie.js"
   ],
   "styles": [
     "styles/walkie-talkie.css"
