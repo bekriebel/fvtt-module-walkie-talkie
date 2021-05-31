@@ -1,5 +1,5 @@
-import { LANG_NAME, MODULE_NAME } from "./Constants.js";
-import * as log from "./Logging.js";
+import { LANG_NAME, MODULE_NAME } from "./utils/constants.js";
+import * as log from "./utils/logging.js";
 import "./simplepeer.min.js";
 
 export default class WalkieTalkie {

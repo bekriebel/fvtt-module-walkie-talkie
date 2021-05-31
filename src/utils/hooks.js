@@ -1,29 +1,14 @@
-import { LANG_NAME, MODULE_NAME } from "./Constants.js";
-import * as log from "./Logging.js";
+import { MODULE_NAME } from "./constants.js";
+import registerModuleSettings from "./registerModuleSettings.js";
+import * as log from "./logging.js";
 
 /* -------------------------------------------- */
 /*  Hook calls                                  */
 /* -------------------------------------------- */
 
-Hooks.on("init", () => {
-  game.settings.register(MODULE_NAME, "toggleBroadcast", {
-    name: `${LANG_NAME}.toggleBroadcast`,
-    hint: `${LANG_NAME}.toggleBroadcastHint`,
-    scope: "client",
-    config: true,
-    default: false,
-    type: Boolean,
-    onChange: () => window.location.reload(),
-  });
-  game.settings.register(MODULE_NAME, "disableAvClient", {
-    name: `${LANG_NAME}.disableAvClient`,
-    hint: `${LANG_NAME}.disableAvClientHint`,
-    scope: "client",
-    config: !game.settings.get(MODULE_NAME, "toggleBroadcast"),
-    default: true,
-    type: Boolean,
-    onChange: () => {},
-  });
+Hooks.once("init", () => {
+  // Register module settings
+  registerModuleSettings();
 
   Hooks.on("renderPlayerList", globalThis.walkieTalkie._onRenderPlayerList.bind(globalThis.walkieTalkie));
 
