@@ -53,6 +53,6 @@ Hooks.on("ready", () => {
   }).then(() => {
     log.debug("Audio stream request succeeded");
   }).catch((err) => {
-    log.onError("Error getting audio device:", err);
+    log.error("Error getting audio device:", err);
   });
 });
