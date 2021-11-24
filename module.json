@@ -17,13 +17,9 @@
   "version": "0.2.2",
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.8.8",
-  "manifestPlusVersion": "1.1.0",
-  "esmodules": [
-    "src/walkie-talkie.js"
-  ],
-  "styles": [
-    "styles/walkie-talkie.css"
-  ],
+  "manifestPlusVersion": "1.2.0",
+  "esmodules": ["src/walkie-talkie.js"],
+  "styles": ["styles/walkie-talkie.css"],
   "socket": true,
   "url": "https://github.com/bekriebel/fvtt-module-walkie-talkie",
   "manifest": "https://github.com/bekriebel/fvtt-module-walkie-talkie/releases/latest/download/module.json",
