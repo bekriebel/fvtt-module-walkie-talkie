@@ -1,3 +1,7 @@
+# v0.2.3
+
+- Update compatible FVTT version to v9.231
+
 # v0.2.2
 
 - Update compatible FVTT version to v0.8.8

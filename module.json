@@ -14,9 +14,9 @@
       "twitter": "@bekit"
     }
   ],
-  "version": "0.2.2",
+  "version": "0.2.3",
   "minimumCoreVersion": "0.7.0",
-  "compatibleCoreVersion": "0.8.8",
+  "compatibleCoreVersion": "9.231",
   "manifestPlusVersion": "1.2.0",
   "esmodules": ["src/walkie-talkie.js"],
   "styles": ["styles/walkie-talkie.css"],
