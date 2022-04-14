@@ -210,7 +210,7 @@ export default class WalkieTalkie {
         const user = players.users[index];
         if (!user.isSelf && user.active) {
           const playerActiveIcon = $(playerHtml).children(".player-active");
-          this._addTalkieButton(playerActiveIcon, user.id);
+          this._addTalkieButton(playerActiveIcon, user._id || user.id);
         }
       });
   }
