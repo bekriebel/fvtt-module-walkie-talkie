@@ -14,10 +14,13 @@ export default class WalkieTalkie {
 
   // Module Code
   setupPeer(userId, isInitiator = false) {
-    this.peers.set(userId, new SimplePeer({
-      initiator: isInitiator,
-      stream: false,
-    }));
+    this.peers.set(
+      userId,
+      new SimplePeer({
+        initiator: isInitiator,
+        stream: false,
+      })
+    );
 
     this.peers.get(userId).on("signal", (data) => {
       log.debug("SimplePeer signal (", userId, "):", data);
@@ -92,19 +95,29 @@ export default class WalkieTalkie {
     this.audioElements.delete(userId);
 
     if (this.remoteStreams.has(userId)) {
-      this.remoteStreams.get(userId).getTracks().forEach((remoteStream) => {
-        remoteStream.stop();
-      });
+      this.remoteStreams
+        .get(userId)
+        .getTracks()
+        .forEach((remoteStream) => {
+          remoteStream.stop();
+        });
     }
     this.remoteStreams.delete(userId);
 
     if (this.localStreams.has(userId)) {
-      this.localStreams.get(userId).getTracks().forEach((localStream) => {
-        localStream.stop();
-      });
+      this.localStreams
+        .get(userId)
+        .getTracks()
+        .forEach((localStream) => {
+          localStream.stop();
+        });
     }
-    this.talkieButtons.get(userId).removeClass("walkie-talkie-stream-broadcasting");
-    this.talkieButtons.get(userId).removeClass("walkie-talkie-stream-connected");
+    this.talkieButtons
+      .get(userId)
+      .removeClass("walkie-talkie-stream-broadcasting");
+    this.talkieButtons
+      .get(userId)
+      .removeClass("walkie-talkie-stream-connected");
     this.localStreams.delete(userId);
 
     if (this.peers.has(userId)) {
@@ -129,7 +142,9 @@ export default class WalkieTalkie {
     if (!this.peers.has(userId) || !this.localStreams.has(userId)) {
       if (this.peers.has(userId) && enable) {
         log.warn(game.i18n.localize(`${LANG_NAME}.captureErrorAudio`));
-        ui.notifications.warn(game.i18n.localize(`${LANG_NAME}.captureErrorAudio`));
+        ui.notifications.warn(
+          game.i18n.localize(`${LANG_NAME}.captureErrorAudio`)
+        );
       }
 
       return;
@@ -158,9 +173,13 @@ export default class WalkieTalkie {
 
     // Set the button class for coloration
     if (enable) {
-      this.talkieButtons.get(userId).addClass("walkie-talkie-stream-broadcasting");
+      this.talkieButtons
+        .get(userId)
+        .addClass("walkie-talkie-stream-broadcasting");
     } else {
-      this.talkieButtons.get(userId).removeClass("walkie-talkie-stream-broadcasting");
+      this.talkieButtons
+        .get(userId)
+        .removeClass("walkie-talkie-stream-broadcasting");
     }
   }
 
@@ -184,19 +203,24 @@ export default class WalkieTalkie {
   }
 
   _onRenderPlayerList(playerList, html, players) {
-    html.find("#player-list").children().each((index, playerHtml) => {
-      const user = players.users[index];
-      if (!user.isSelf && user.active) {
-        const playerActiveIcon = $(playerHtml).children(".player-active");
-        this._addTalkieButton(playerActiveIcon, user.id);
-      }
-    });
+    html
+      .find("#player-list")
+      .children()
+      .each((index, playerHtml) => {
+        const user = players.users[index];
+        if (!user.isSelf && user.active) {
+          const playerActiveIcon = $(playerHtml).children(".player-active");
+          this._addTalkieButton(playerActiveIcon, user.id);
+        }
+      });
   }
 
   _addTalkieButton(playerActiveIcon, userId) {
     // Create the button if it doesn't exist
     if (!this.talkieButtons.has(userId)) {
-      const talkieButton = $('<a class="walkie-talkie-button" title="Walkie-Talkie"><i class="fas fa-microphone-alt"></i></a>');
+      const talkieButton = $(
+        '<a class="walkie-talkie-button" title="Walkie-Talkie"><i class="fas fa-microphone-alt"></i></a>'
+      );
       this.talkieButtons.set(userId, talkieButton);
     }
 
@@ -230,7 +254,9 @@ export default class WalkieTalkie {
     if (broadcasting) {
       this.talkieButtons.get(userId).addClass("walkie-talkie-stream-receiving");
     } else {
-      this.talkieButtons.get(userId).removeClass("walkie-talkie-stream-receiving");
+      this.talkieButtons
+        .get(userId)
+        .removeClass("walkie-talkie-stream-receiving");
     }
   }
 
@@ -253,11 +279,14 @@ export default class WalkieTalkie {
       audioElement.className = "player-walkie-talkie-audio";
       audioElement.autoplay = true;
       if (typeof audioElement.sinkId !== "undefined") {
-        audioElement.setSinkId(audioSink).then(() => {
-          log.debug("Audio output set:", audioSink);
-        }).catch((err) => {
-          log.error("Error setting audio output device:", err);
-        });
+        audioElement
+          .setSinkId(audioSink)
+          .then(() => {
+            log.debug("Audio output set:", audioSink);
+          })
+          .catch((err) => {
+            log.error("Error setting audio output device:", err);
+          });
       } else {
         log.debug("Browser does not support output device selection");
       }
@@ -285,24 +314,35 @@ export default class WalkieTalkie {
     if (this.localStreams.has(userId)) {
       log.debug("Adding user audio to stream (", userId, ")");
       this.peers.get(userId).addStream(this.localStreams.get(userId));
-      this.savedAvEnabledState = !game.webrtc.settings.get("client", `users.${game.user.id}.muted`);
+      this.savedAvEnabledState = !game.webrtc.settings.get(
+        "client",
+        `users.${game.user.id}.muted`
+      );
       this.enableLocalStream(userId, false);
     } else {
-      navigator.mediaDevices.getUserMedia({
-        video: false,
-        audio: { deviceId: game.webrtc.settings.get("client", "audioSrc") },
-      }).then((localStream) => {
-        log.debug("Got user audio:", localStream);
-        this.localStreams.set(userId, localStream);
+      navigator.mediaDevices
+        .getUserMedia({
+          video: false,
+          audio: { deviceId: game.webrtc.settings.get("client", "audioSrc") },
+        })
+        .then((localStream) => {
+          log.debug("Got user audio:", localStream);
+          this.localStreams.set(userId, localStream);
 
-        log.debug("Adding user audio to stream (", userId, ")");
-        this.peers.get(userId).addStream(this.localStreams.get(userId));
-        this.savedAvEnabledState = !game.webrtc.settings.get("client", `users.${game.user.id}.muted`);
-        this.enableLocalStream(userId, false);
-        this.talkieButtons.get(userId).addClass("walkie-talkie-stream-connected");
-      }).catch((err) => {
-        log.error("Error getting audio device:", err);
-      });
+          log.debug("Adding user audio to stream (", userId, ")");
+          this.peers.get(userId).addStream(this.localStreams.get(userId));
+          this.savedAvEnabledState = !game.webrtc.settings.get(
+            "client",
+            `users.${game.user.id}.muted`
+          );
+          this.enableLocalStream(userId, false);
+          this.talkieButtons
+            .get(userId)
+            .addClass("walkie-talkie-stream-connected");
+        })
+        .catch((err) => {
+          log.error("Error getting audio device:", err);
+        });
     }
   }
 
@@ -320,12 +360,18 @@ export default class WalkieTalkie {
 
   _disableAvClient(disable) {
     // Don't disable the AV client if the setting is off or the toggleBroadcast option is on
-    if (!game.settings.get(MODULE_NAME, "disableAvClient") || game.settings.get(MODULE_NAME, "toggleBroadcast")) {
+    if (
+      !game.settings.get(MODULE_NAME, "disableAvClient") ||
+      game.settings.get(MODULE_NAME, "toggleBroadcast")
+    ) {
       return;
     }
 
     // Get state of webrtc audio
-    const isAudioEnabled = !game.webrtc.settings.get("client", `users.${game.user.id}.muted`);
+    const isAudioEnabled = !game.webrtc.settings.get(
+      "client",
+      `users.${game.user.id}.muted`
+    );
 
     if (disable) {
       this.savedAvEnabledState = isAudioEnabled;
@@ -336,7 +382,11 @@ export default class WalkieTalkie {
       }
     } else if (this.savedAvEnabledState !== isAudioEnabled) {
       log.debug("Enabling AV client audio");
-      game.webrtc.settings.set("client", `users.${game.user.id}.muted`, !this.savedAvEnabledState);
+      game.webrtc.settings.set(
+        "client",
+        `users.${game.user.id}.muted`,
+        !this.savedAvEnabledState
+      );
       // TODO: trigger refresh view for webrtc video window for mute icon
     }
   }

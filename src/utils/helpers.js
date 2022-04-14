@@ -10,7 +10,7 @@ export const delayReload = debounce(() => window.location.reload(), 100);
 /**
  * Dynamically load additional script files, returning when loaded
  * @param scriptSrc    The location of the script file
-*/
+ */
 export async function loadScript(scriptSrc) {
   log.debug("Loading script:", scriptSrc);
   return new Promise((resolve, reject) => {

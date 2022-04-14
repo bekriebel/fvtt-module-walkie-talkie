@@ -10,9 +10,15 @@ Hooks.once("init", () => {
   // Register module settings
   registerModuleSettings();
 
-  Hooks.on("renderPlayerList", globalThis.walkieTalkie._onRenderPlayerList.bind(globalThis.walkieTalkie));
+  Hooks.on(
+    "renderPlayerList",
+    globalThis.walkieTalkie._onRenderPlayerList.bind(globalThis.walkieTalkie)
+  );
 
-  Hooks.on("rtcSettingsChanged", globalThis.walkieTalkie._onRtcSettingsChanged.bind(globalThis.walkieTalkie));
+  Hooks.on(
+    "rtcSettingsChanged",
+    globalThis.walkieTalkie._onRtcSettingsChanged.bind(globalThis.walkieTalkie)
+  );
 });
 
 Hooks.on("ready", () => {
@@ -35,7 +41,10 @@ Hooks.on("ready", () => {
       case "peer-broadcasting":
         // Ignore requests that aren't for us.
         if (request.userId === game.user.id) {
-          globalThis.walkieTalkie._remoteBroadcasting(userId, request.broadcasting);
+          globalThis.walkieTalkie._remoteBroadcasting(
+            userId,
+            request.broadcasting
+          );
         }
         break;
       default:
@@ -44,15 +53,21 @@ Hooks.on("ready", () => {
   });
 
   // Break down peer when the window is closed
-  window.addEventListener("beforeunload", globalThis.walkieTalkie.closeAllPeers.bind(globalThis.walkieTalkie));
+  window.addEventListener(
+    "beforeunload",
+    globalThis.walkieTalkie.closeAllPeers.bind(globalThis.walkieTalkie)
+  );
 
   // Request media access up front
-  navigator.mediaDevices.getUserMedia({
-    video: false,
-    audio: true,
-  }).then(() => {
-    log.debug("Audio stream request succeeded");
-  }).catch((err) => {
-    log.error("Error getting audio device:", err);
-  });
+  navigator.mediaDevices
+    .getUserMedia({
+      video: false,
+      audio: true,
+    })
+    .then(() => {
+      log.debug("Audio stream request succeeded");
+    })
+    .catch((err) => {
+      log.error("Error getting audio device:", err);
+    });
 });
